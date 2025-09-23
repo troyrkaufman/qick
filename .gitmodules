@@ -1,0 +1,6 @@
+[submodule "taxi"]
+	path = submodules/taxi
+	url = https://github.com/fpganinja/taxi
+[submodule "axi"]
+	path = submodules/axi
+	url = https://github.com/pulp-platform/axi
