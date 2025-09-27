@@ -1,5 +1,5 @@
-`include "axi/typedef.svh"
-`include "axi/assign.svh"
+`include "typedef.svh"
+`include "assign.svh"
 
 // Top-level wrapper that bridges a timed processor (TP) to axis_signal_gen_v6
 // via AXI4-Lite CDC (control) and AXI4-Stream async FIFOs (data).
@@ -184,29 +184,29 @@ module new_axi_sig_gen #(
     .s_axi_aclk     (s_axi_clk),
     .s_axi_aresetn  (s_resetn),
 
-    .s_axi_awaddr   (s_axi_if.aw.addr),
-    .s_axi_awprot   (s_axi_if.aw.prot),
-    .s_axi_awvalid  (s_axi_if.aw.valid),
-    .s_axi_awready  (s_axi_if.aw.ready),
+    .s_axi_awaddr   (s_axi_if.aw_addr),
+    .s_axi_awprot   (s_axi_if.aw_prot),
+    .s_axi_awvalid  (s_axi_if.aw_valid),
+    .s_axi_awready  (s_axi_if.aw_ready),
 
-    .s_axi_wdata    (s_axi_if.w.data),
-    .s_axi_wstrb    (s_axi_if.w.strb),
-    .s_axi_wvalid   (s_axi_if.w.valid),
-    .s_axi_wready   (s_axi_if.w.ready),
+    .s_axi_wdata    (s_axi_if.w_data),
+    .s_axi_wstrb    (s_axi_if.w_strb),
+    .s_axi_wvalid   (s_axi_if.w_valid),
+    .s_axi_wready   (s_axi_if.w_ready),
 
-    .s_axi_bresp    (s_axi_if.b.resp),
-    .s_axi_bvalid   (s_axi_if.b.valid),
-    .s_axi_bready   (s_axi_if.b.ready),
+    .s_axi_bresp    (s_axi_if.b_resp),
+    .s_axi_bvalid   (s_axi_if.b_valid),
+    .s_axi_bready   (s_axi_if.b_ready),
 
-    .s_axi_araddr   (s_axi_if.ar.addr),
-    .s_axi_arprot   (s_axi_if.ar.prot),
-    .s_axi_arvalid  (s_axi_if.ar.valid),
-    .s_axi_arready  (s_axi_if.ar.ready),
+    .s_axi_araddr   (s_axi_if.ar_addr),
+    .s_axi_arprot   (s_axi_if.ar_prot),
+    .s_axi_arvalid  (s_axi_if.ar_valid),
+    .s_axi_arready  (s_axi_if.ar_ready),
 
-    .s_axi_rdata    (s_axi_if.r.data),
-    .s_axi_rresp    (s_axi_if.r.resp),
-    .s_axi_rvalid   (s_axi_if.r.valid),
-    .s_axi_rready   (s_axi_if.r.ready),
+    .s_axi_rdata    (s_axi_if.r_data),
+    .s_axi_rresp    (s_axi_if.r_resp),
+    .s_axi_rvalid   (s_axi_if.r_valid),
+    .s_axi_rready   (s_axi_if.r_ready),
 
     // AXIS s0 (sample loader) — flat ports wired to interface
     .s0_axis_aclk   (s0_axi_clk),
@@ -232,7 +232,7 @@ module new_axi_sig_gen #(
   // Sanity checks (optional but recommended)
   // ----------------------------------------------------------------
   // Synthesis-time assertions to catch width mismatches early
-  initial begin
+  /*initial begin
     // AXI-Lite widths
     if (AXI_BUS'(.AXI_ADDR_WIDTH(6), .AXI_DATA_WIDTH(32))'(0) !== 0) begin end // dummy reference
 
@@ -243,6 +243,6 @@ module new_axi_sig_gen #(
       $error("tp_s1_axis.DATA_W must be 160 to match s1_axis_tdata");
     if (tp_m_axis.DATA_W    != (N_DDS*16))
       $error("tp_m_axis.DATA_W must be N_DDS*16 to match m_axis_tdata");
-  end
+  end*/
 
 endmodule

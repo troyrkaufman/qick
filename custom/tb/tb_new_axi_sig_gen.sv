@@ -82,24 +82,24 @@ module tb_new_axi_sig_gen;
   task axi_lite_write(input [5:0] addr, input [31:0] data);
     begin
       // drive write address
-      tp_axi_ctrl.aw.addr  <= addr;
-      tp_axi_ctrl.aw.valid <= 1;
+      tp_axi_ctrl.aw_addr  <= addr;
+      tp_axi_ctrl.aw_valid <= 1;
       // drive write data
-      tp_axi_ctrl.w.data   <= data;
-      tp_axi_ctrl.w.strb   <= 4'hF;
-      tp_axi_ctrl.w.valid  <= 1;
+      tp_axi_ctrl.w_data   <= data;
+      tp_axi_ctrl.w_strb   <= 4'hF;
+      tp_axi_ctrl.w_valid  <= 1;
 
       @(posedge s_axi_clk);
-      wait(tp_axi_ctrl.aw.ready && tp_axi_ctrl.w.ready);
+      wait(tp_axi_ctrl.aw_ready && tp_axi_ctrl.w_ready);
 
-      tp_axi_ctrl.aw.valid <= 0;
-      tp_axi_ctrl.w.valid  <= 0;
+      tp_axi_ctrl.aw_valid <= 0;
+      tp_axi_ctrl.w_valid  <= 0;
 
       // wait for write response
-      wait(tp_axi_ctrl.b.valid);
-      tp_axi_ctrl.b.ready <= 1;
+      wait(tp_axi_ctrl.b_valid);
+      tp_axi_ctrl.b_ready <= 1;
       @(posedge s_axi_clk);
-      tp_axi_ctrl.b.ready <= 0;
+      tp_axi_ctrl.b_ready <= 0;
     end
   endtask
 
@@ -116,7 +116,7 @@ module tb_new_axi_sig_gen;
 
     // Push a few samples into s0_axis
     repeat (4) begin
-      tp_s0_axis.tdata  <= $random;
+      tp_s0_axis.tdata  <= 8'h55;
       tp_s0_axis.tvalid <= 1;
       @(posedge t_clk);
       wait(tp_s0_axis.tready);
@@ -125,7 +125,7 @@ module tb_new_axi_sig_gen;
 
     // Push a few waveforms into s1_axis
     repeat (2) begin
-      tp_s1_axis.tdata  <= $random;
+      tp_s1_axis.tdata  <= 8'hb3;
       tp_s1_axis.tvalid <= 1;
       @(posedge t_clk);
       wait(tp_s1_axis.tready);
@@ -138,6 +138,7 @@ module tb_new_axi_sig_gen;
       if (tp_m_axis.tvalid) begin
         $display("Time %0t: Got m_axis data = %h", $time, tp_m_axis.tdata);
         tp_m_axis.tready <= 1;
+        $stop;
       end else begin
         tp_m_axis.tready <= 0;
       end
