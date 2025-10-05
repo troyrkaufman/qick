@@ -228,21 +228,4 @@ module new_axi_sig_gen #(
     .m_axis_tdata   (m_axis_from_siggen.tdata)
   );
 
-  // ----------------------------------------------------------------
-  // Sanity checks (optional but recommended)
-  // ----------------------------------------------------------------
-  // Synthesis-time assertions to catch width mismatches early
-  /*initial begin
-    // AXI-Lite widths
-    if (AXI_BUS'(.AXI_ADDR_WIDTH(6), .AXI_DATA_WIDTH(32))'(0) !== 0) begin end // dummy reference
-
-    // AXIS data widths
-    if (tp_s0_axis.DATA_W   != 32)
-      $error("tp_s0_axis.DATA_W must be 32 to match s0_axis_tdata");
-    if (tp_s1_axis.DATA_W   != 160)
-      $error("tp_s1_axis.DATA_W must be 160 to match s1_axis_tdata");
-    if (tp_m_axis.DATA_W    != (N_DDS*16))
-      $error("tp_m_axis.DATA_W must be N_DDS*16 to match m_axis_tdata");
-  end*/
-
 endmodule

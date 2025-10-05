@@ -104,7 +104,7 @@ module tb_new_axi_sig_gen_v6;
   xil_axi_ulong      addr_start_addr = 32'h4000_0000; // write -> 6'h00
   xil_axi_ulong      addr_we         = 32'h4000_0004; // write -> 6'h01*4
 
-  xil_axi_prot_t     prot            = 0;
+  xil_axi_prot_t     prot ;           //= 0;
   reg  [31:0]        data_wr;
   reg  [31:0]        data_rd;
   xil_axi_resp_t     resp;
@@ -210,7 +210,7 @@ module tb_new_axi_sig_gen_v6;
   // ------------------------------------------------------------
   // Control plane: TP drives as AXI-Lite master
   AXI_BUS #(
-    .AXI_ADDR_WIDTH(6),
+    .AXI_ADDR_WIDTH(32),
     .AXI_DATA_WIDTH(32),
     .AXI_ID_WIDTH  (0),
     .AXI_USER_WIDTH(0)
@@ -244,7 +244,7 @@ module tb_new_axi_sig_gen_v6;
   // ------------------------------
   // VIP Agent handle
   // ------------------------------
-  axi_vip_1_mst_t axi_mst_0_agent;
+  axi_vip_1_mst_t axi_vip_1_mst;
   //axi_mst_0_mst_t axi_mst_0_agent;
 
   // Pack the 160-bit s1 descriptor
@@ -262,15 +262,27 @@ module tb_new_axi_sig_gen_v6;
     phase_r,             // 32
     freq_r               // 32
   };
+  
+  /*
+  axi_vip_1_mst_t  axi_vip_1_mst;
+//      initial begin : START_axi_vip_1_MASTER
+//        axi_vip_1_mst = new("axi_vip_1_mst", `axi_vip_1_PATH_TO_INTERFACE);
+//        axi_vip_1_mst.start_master();
+//      end
+  */
 
+  
   // ------------------------------
   // Main control / AXI-Lite programming
   // ------------------------------
   initial begin
     // Create & start VIP agent
-    axi_mst_0_agent = new("axi_mst_0 VIP Agent", tb_new_axi_sig_gen_v6.axi_mst_0_i.inst.IF);
-    axi_mst_0_agent.set_agent_tag("axi_mst_0 VIP");
-    axi_mst_0_agent.start_master();
+    //axi_mst_0_agent = new("axi_vip_1 VIP Agent", tb_new_axi_sig_gen_v6.axi_mst_0_i.inst.IF);
+    //axi_mst_0_agent.set_agent_tag("axi_vip_1 VIP"); 
+    //axi_mst_0_agent.start_master();
+
+    axi_vip_1_mst = new("axi_vip_1_mst", axi_mst_0_i);
+    axi_vip_1_mst.start_master();
 
     // Resets
     s_resetn     <= 1'b0;
@@ -289,11 +301,11 @@ module tb_new_axi_sig_gen_v6;
     // ------------------------------
     $display("[%0t] ### Program DUT registers (start_addr, we) ###", $time);
     data_wr = 32'd0;
-    axi_mst_0_agent.AXI4LITE_WRITE_BURST(addr_start_addr, prot, data_wr, resp);
+    axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_start_addr, prot, data_wr, resp);
     //if (resp != AXI_OKAY) $display("[%0t] WARN: start_addr write resp=%0d", $time, resp);
 
     data_wr = 32'd1;
-    axi_mst_0_agent.AXI4LITE_WRITE_BURST(addr_we, prot, data_wr, resp);
+    axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_we, prot, data_wr, resp);
     //if (resp != AXI_OKAY) $display("[%0t] WARN: we write resp=%0d", $time, resp);
 
     // Kick s0 loader
@@ -303,7 +315,7 @@ module tb_new_axi_sig_gen_v6;
 
     // Deassert WE
     data_wr = 32'd0;
-    axi_mst_0_agent.AXI4LITE_WRITE_BURST(addr_we, prot, data_wr, resp);
+    axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_we, prot, data_wr, resp);
 
     // Queue waveforms (+ start dumping output)
     $display("[%0t] ### Queue Waveforms & Capture Output ###", $time);
