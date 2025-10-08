@@ -23,10 +23,10 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
     input logic bready,
 
     // Read Address Channel
-    input [ADDR_WIDTH-1:0] araddr;
-    input [2:0] arprot;
-    input arvalid;
-    output arready;
+    input [ADDR_WIDTH-1:0] araddr,
+    input [2:0] arprot,
+    input arvalid,
+    output arready,
 
     // Read Data Channel
     output logic [DATA_WIDTH-1:0] rdata,
@@ -46,7 +46,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
     logic axi_bvalid;
     logic [ADDR_WIDTH-1:0] axi_araddr;
     logic axi_arready;
-    logic [DATA_WIDTH-1:0] rdata;
+    logic [DATA_WIDTH-1:0] axi_rdata;
     logic [1:0] axi_rresp;
     logic axi_rvalid;
 
@@ -115,7 +115,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
 
     // Implement axi_wready generation
     always_ff@(posedge aclk) begin 
-        if (~nrst) begin 
+        if (~aresetn) begin 
             axi_wready <= 0;
         end else begin 
             if (axi_wready == 0 && wvalid == 1 && awvalid == 1 && aw_en) begin 
@@ -149,23 +149,22 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
             slv_reg14 <= 0;
             slv_reg15 <= 0;
         end else begin 
-            loc_Addr <= axi_awaddr((ADDR_LSB + OPT_MEM_ADDR_BITS):ADDR_LSB);
+            loc_addr <= axi_awaddr[(ADDR_LSB + OPT_MEM_ADDR_BITS):ADDR_LSB];
 
             if (slv_reg_wren) begin 
                 case (loc_addr)
-                    4'b0000: begin
-                        int byte_index; // procedural loop variable
-                        for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
-                            if (wstrb[byte_index]) begin
-                                slv_reg0[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
-                            end
-                        end
-                    end
+                    'b0000: begin
+                           for (int byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
+                             if (wstrb[byte_index]) begin
+                             slv_reg0[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
+                             end
+                           end
+                         end
                     4'b0001: begin
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg1[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg1[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -173,7 +172,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg2[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg2[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -181,7 +180,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg3[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg3[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -189,7 +188,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg4[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg4[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -197,7 +196,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg5[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg5[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -205,7 +204,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg6[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg6[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -213,7 +212,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg7[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg7[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -221,7 +220,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg8[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg8[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -229,7 +228,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg9[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg9[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -237,7 +236,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg10[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg10[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -245,7 +244,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg11[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg11[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -253,7 +252,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg12[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg12[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -261,7 +260,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg13[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg13[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -269,7 +268,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg14[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg14[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
@@ -277,11 +276,11 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         int byte_index; // procedural loop variable
                         for (byte_index = 0; byte_index < (DATA_WIDTH/8); byte_index++) begin
                             if (wstrb[byte_index]) begin
-                                slv_reg15[(byte_index*8+7) : byte_index*8] <= wdata[(byte_index*8+7) : byte_index*8];
+                                slv_reg15[(byte_index*8+7) -: 8] <= wdata[(byte_index*8+7) -: 8];
                             end
                         end
                     end
-                    default: 
+                    default: begin
                         slv_reg0 <= slv_reg0;
                         slv_reg1 <= slv_reg1;
                         slv_reg2 <= slv_reg2;
@@ -298,13 +297,14 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
                         slv_reg13 <= slv_reg13;
                         slv_reg14 <= slv_reg14;
                         slv_reg15 <= slv_reg15;
+			end
                 endcase
         end
         end
     end
 
     // Implement write response logic generation
-    always_ff@(posedge clk) begin 
+    always_ff@(posedge aclk) begin 
         if (~aresetn) begin 
             axi_bvalid <= 0;
             axi_bresp <= 0;
@@ -319,7 +319,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
     end
 
     // Implement axi_arready generation
-    always_ff@(posedge clk) begin 
+    always_ff@(posedge aclk) begin 
         if (~aresetn) begin 
             axi_arready <= 0;
             axi_araddr <= 1;
@@ -333,11 +333,11 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
     end
 
     // Implement axi_arvalid generation
-    always_ff@(posedge clk) begin 
-        if(~aresetn)  
+    always_ff@(posedge aclk) begin 
+        if(~aresetn)  begin
             axi_rvalid <= 0;
             axi_rresp <= 0;
-        else begin 
+        end else begin 
             if (axi_arready == 1 && arvalid == 1 && axi_rvalid == 0) begin 
                 axi_rvalid <= 1;
                 axi_rresp <= 0;
@@ -374,7 +374,7 @@ module axi_slv_sg_v6 #(parameter DATA_WIDTH = 32, parameter ADDR_WIDTH = 6)(
     end
 
     // Output register or memory read data
-    always_ff@(posedge clk) begin 
+    always_ff@(posedge aclk) begin 
         if (~aresetn) begin 
             axi_rdata <= 0;
         end else begin 
