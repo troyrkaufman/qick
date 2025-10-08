@@ -6,7 +6,6 @@
 
 import axi_vip_pkg::*;
 import axi_vip_1_pkg::*;
-//import axi_mst_1_pkg::*;
 
 module tb_new_axi_sig_gen_v6;
 
@@ -101,10 +100,10 @@ module tb_new_axi_sig_gen_v6;
   // NOTE: These addresses assume the VIP uses 0x4000_0000 base then
   // DUT only decodes low 6 bits; adjust if your address map differs.
   // ------------------------------
-  xil_axi_ulong      addr_start_addr = 32'h4000_0000; // write -> 6'h00
-  xil_axi_ulong      addr_we         = 32'h4000_0004; // write -> 6'h01*4
+  xil_axi_ulong      addr_start_addr = 64'h4000_0000; // write -> 6'h00
+  xil_axi_ulong      addr_we         = 64'h4000_0004; // write -> 6'h01*4
 
-  xil_axi_prot_t     prot ;           //= 0;
+  xil_axi_prot_t     prot;           //= 0;
   reg  [31:0]        data_wr;
   reg  [31:0]        data_rd;
   xil_axi_resp_t     resp;
@@ -148,62 +147,6 @@ module tb_new_axi_sig_gen_v6;
     .m_axi_wstrb   (s_axi_wstrb),
     .m_axi_wvalid  (s_axi_wvalid)
   );
-
-//  // ------------------------------
-//  // DUT: your new wrapper
-//  // Make sure port names match your wrapper. If your wrapper names differ,
-//  // rename below accordingly.
-//  // ------------------------------
-//  new_axi_sig_gen #(
-//    .N              (N),
-//    .N_DDS          (N_DDS),
-//    .GEN_DDS        ("FALSE"),
-//    .ENVELOPE_TYPE  ("REAL")
-//  ) DUT (
-//    // AXI-Lite
-//    .s_axi_aclk     (s_axi_aclk),
-//    .s_axi_aresetn  (s_axi_aresetn),
-//    .s_axi_araddr   (s_axi_araddr),
-//    .s_axi_arprot   (s_axi_arprot),
-//    .s_axi_arready  (s_axi_arready),
-//    .s_axi_arvalid  (s_axi_arvalid),
-//    .s_axi_awaddr   (s_axi_awaddr),
-//    .s_axi_awprot   (s_axi_awprot),
-//    .s_axi_awready  (s_axi_awready),
-//    .s_axi_awvalid  (s_axi_awvalid),
-//    .s_axi_bready   (s_axi_bready),
-//    .s_axi_bresp    (s_axi_bresp),
-//    .s_axi_bvalid   (s_axi_bvalid),
-//    .s_axi_rdata    (s_axi_rdata),
-//    .s_axi_rready   (s_axi_rready),
-//    .s_axi_rresp    (s_axi_rresp),
-//    .s_axi_rvalid   (s_axi_rvalid),
-//    .s_axi_wdata    (s_axi_wdata),
-//    .s_axi_wready   (s_axi_wready),
-//    .s_axi_wstrb    (s_axi_wstrb),
-//    .s_axi_wvalid   (s_axi_wvalid),
-
-//    // s0_axis: load memory
-//    .s0_axis_aclk    (s0_axis_aclk),
-//    .s0_axis_aresetn (s0_axis_aresetn),
-//    .s0_axis_tdata   (s0_axis_tdata),
-//    .s0_axis_tvalid  (s0_axis_tvalid),
-//    .s0_axis_tready  (s0_axis_tready),
-
-//    // common data clock/reset
-//    .aclk            (aclk),
-//    .aresetn         (aresetn),
-
-//    // s1_axis: queue waveforms
-//    .s1_axis_tdata   (s1_axis_tdata),
-//    .s1_axis_tvalid  (s1_axis_tvalid),
-//    .s1_axis_tready  (s1_axis_tready),
-
-//    // m_axis: output
-//    .m_axis_tready   (m_axis_tready),
-//    .m_axis_tvalid   (m_axis_tvalid),
-//    .m_axis_tdata    (m_axis_tdata)
-//  );
 
   //------------------------------------------------------------
   // Interfaces
@@ -301,12 +244,13 @@ module tb_new_axi_sig_gen_v6;
     // ------------------------------
     $display("[%0t] ### Program DUT registers (start_addr, we) ###", $time);
     data_wr = 32'd0;
-    axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_start_addr, prot, data_wr, resp);
-    //if (resp != AXI_OKAY) $display("[%0t] WARN: start_addr write resp=%0d", $time, resp);
+    
+    axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_start_addr, 3'b0, data_wr, resp);
+    if (resp != XIL_AXI_RESP_OKAY) $display("[%0t] WARN: start_addr write resp=%0d", $time, resp);
 
     data_wr = 32'd1;
     axi_vip_1_mst.AXI4LITE_WRITE_BURST(addr_we, prot, data_wr, resp);
-    //if (resp != AXI_OKAY) $display("[%0t] WARN: we write resp=%0d", $time, resp);
+    if (resp != XIL_AXI_RESP_OKAY) $display("[%0t] WARN: we write resp=%0d", $time, resp);
 
     // Kick s0 loader
     tb_load_mem <= 1'b1;
