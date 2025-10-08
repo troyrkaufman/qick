@@ -205,14 +205,6 @@ module tb_new_axi_sig_gen_v6;
     phase_r,             // 32
     freq_r               // 32
   };
-  
-  /*
-  axi_vip_1_mst_t  axi_vip_1_mst;
-//      initial begin : START_axi_vip_1_MASTER
-//        axi_vip_1_mst = new("axi_vip_1_mst", `axi_vip_1_PATH_TO_INTERFACE);
-//        axi_vip_1_mst.start_master();
-//      end
-  */
 
   
   // ------------------------------
@@ -220,20 +212,14 @@ module tb_new_axi_sig_gen_v6;
   // ------------------------------
   initial begin
     // Create & start VIP agent
-    //axi_mst_0_agent = new("axi_vip_1 VIP Agent", tb_new_axi_sig_gen_v6.axi_mst_0_i.inst.IF);
-    //axi_mst_0_agent.set_agent_tag("axi_vip_1 VIP"); 
-    //axi_mst_0_agent.start_master();
-
     axi_vip_1_mst = new("axi_vip_1_mst", axi_mst_0_i);
     axi_vip_1_mst.start_master();
 
     // Resets
     s_resetn     <= 1'b0;
-//    s0_axis_aresetn   <= 1'b0;
         t_resetn           <= 1'b0;
     repeat (25) @(posedge s_axi_aclk); // ~500ns at 100MHz
     s_resetn     <= 1'b1;
-//    s0_axis_aresetn   <= 1'b1;
         t_resetn           <= 1'b1;
 
     // Wait a bit for DUT to settle
