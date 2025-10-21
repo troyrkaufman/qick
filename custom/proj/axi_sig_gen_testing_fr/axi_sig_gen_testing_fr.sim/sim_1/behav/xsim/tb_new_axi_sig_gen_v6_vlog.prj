@@ -1,0 +1,48 @@
+# compile verilog/system verilog design source files
+verilog axi_infrastructure_v1_1_0  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/axi_infrastructure_v1_1_vl_rfs.v" \
+
+sv xil_defaultlib  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ip/axi_vip_1/sim/axi_vip_1_pkg.sv" \
+
+sv axi_vip_v1_1_14  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/axi_vip_v1_1_vl_rfs.sv" \
+
+sv xil_defaultlib  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ip/axi_vip_1/sim/axi_vip_1.sv" \
+
+verilog xil_defaultlib  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/axis_signal_gen_v6.v" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/latency_reg.v" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/signal_gen.v" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/signal_gen_top.v" \
+
+sv xil_defaultlib  -i "../../../../include" -i "../../../../include/common_cells" --include "../../../../../../../submodules/axi/include/axi" --include "../../../../../../../submodules/path/to/common_cells/include/common_cells" --include "../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl" --include "../../../../../../../submodules/path/to/common_cells/test/ecc" --include "../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/include" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" \
+"../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/hdl/xil_common_vip_pkg.sv" \
+"../../../../../../../submodules/axi/src/axi_pkg.sv" \
+"../../../../../../../submodules/axi/src/axi_cdc.sv" \
+"../../../../../../../submodules/axi/src/axi_cdc_dst.sv" \
+"../../../../../../../submodules/axi/src/axi_cdc_src.sv" \
+"../../../../../../../submodules/axi/src/axi_intf.sv" \
+"../../../../../../../../../../Vivado/2023.1/data/xilinx_vip/hdl/axi_vip_pkg.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/binary_to_gray.sv" \
+"../../../../../../../firmware/hdl/bram_dp_xpm.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/cdc_fifo_gray.sv" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/ctrl_sg_v6.sv" \
+"../../../../../../../firmware/hdl/fifo_xpm.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/gray_to_binary.sv" \
+"../../../../../../src/new_axi_sig_gen.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/spill_register.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/spill_register_flushable.sv" \
+"../../../../../../../submodules/path/to/common_cells/src/sync.sv" \
+"../../../../../../../submodules/taxi/src/axis/rtl/taxi_axis_async_fifo.sv" \
+"../../../../../../../submodules/taxi/src/axis/rtl/taxi_axis_if.sv" \
+"../../../../../../../submodules/taxi/src/sync/rtl/taxi_sync_reset.sv" \
+"../../../../../../../submodules/taxi/src/sync/rtl/taxi_sync_signal.sv" \
+"../../../../../../tb/tb_wrapper_sig_gen.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

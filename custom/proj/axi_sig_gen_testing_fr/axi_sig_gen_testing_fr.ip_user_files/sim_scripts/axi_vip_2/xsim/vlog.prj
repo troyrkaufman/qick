@@ -1,0 +1,8 @@
+sv xil_defaultlib -i "../../../../include" -i "../../../../include/common_cells" --include "/usr/local/Vivado/2023.1/data/xilinx_vip/include" --include "../../../ipstatic/hdl" \
+"../../../ip/axi_vip_2/sim/axi_vip_2_pkg.sv" \
+"../../../ip/axi_vip_2/sim/axi_vip_2.sv" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

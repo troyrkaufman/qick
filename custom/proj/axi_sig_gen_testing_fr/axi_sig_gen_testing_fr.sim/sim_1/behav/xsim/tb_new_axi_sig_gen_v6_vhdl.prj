@@ -1,0 +1,36 @@
+# compile vhdl design source files
+vhdl xbip_utils_v3_0_10  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \
+
+vhdl axi_utils_v2_0_6  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/axi_utils_v2_0_vh_rfs.vhd" \
+
+vhdl xbip_pipe_v3_0_6  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_pipe_v3_0_vh_rfs.vhd" \
+
+vhdl xbip_bram18k_v3_0_6  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_bram18k_v3_0_vh_rfs.vhd" \
+
+vhdl mult_gen_v12_0_18  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/mult_gen_v12_0_vh_rfs.vhd" \
+
+vhdl xbip_dsp48_wrapper_v3_0_4  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_dsp48_wrapper_v3_0_vh_rfs.vhd" \
+
+vhdl xbip_dsp48_addsub_v3_0_6  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_dsp48_addsub_v3_0_vh_rfs.vhd" \
+
+vhdl xbip_dsp48_multadd_v3_0_6  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/xbip_dsp48_multadd_v3_0_vh_rfs.vhd" \
+
+vhdl dds_compiler_v6_0_22  \
+"../../../../axi_sig_gen_testing_fr.ip_user_files/ipstatic/hdl/dds_compiler_v6_0_vh_rfs.vhd" \
+
+vhdl xil_defaultlib  \
+"../../../../../../../firmware/projects/qick_tprocv2_4x2_standard/top/top.tmp/axis_signal_gen_v6_v1_0_project/axis_signal_gen_v6_v1_0_project.gen/sources_1/ip/dds_compiler_0/sim/dds_compiler_0.vhd" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/axi_slv_sg_v6.vhd" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/data_writer.vhd" \
+"../../../../../../../firmware/ip/axis_signal_gen_v6/src/synchronizer_n.vhd" \
+
+# Do not sort compile order
+nosort
