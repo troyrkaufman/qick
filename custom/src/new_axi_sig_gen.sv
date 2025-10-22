@@ -1,5 +1,5 @@
-`include "typedef.svh"
-`include "assign.svh"
+`include "axi/typedef.svh"
+`include "axi/assign.svh"
 
 // Top-level wrapper that bridges a timed processor (TP) to axis_signal_gen_v6
 // via AXI4-Lite CDC (control) and AXI4-Stream async FIFOs (data).
